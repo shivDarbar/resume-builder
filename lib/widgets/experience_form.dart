@@ -3,18 +3,18 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:resume_builder_app/providers/resume_provider.dart';
 
-class EducationForm extends StatefulWidget {
+class ExperienceForm extends StatefulWidget {
   final int index;
-  const EducationForm({Key? key, required this.index}) : super(key: key);
+  const ExperienceForm({Key? key, required this.index}) : super(key: key);
 
   @override
-  State<EducationForm> createState() => _EducationFormState();
+  State<ExperienceForm> createState() => _ExperienceFormState();
 }
 
 TextEditingController startDateController = TextEditingController();
 TextEditingController endDateController = TextEditingController();
 
-class _EducationFormState extends State<EducationForm> {
+class _ExperienceFormState extends State<ExperienceForm> {
   @override
   void initState() {
     startDateController = TextEditingController();
@@ -25,7 +25,7 @@ class _EducationFormState extends State<EducationForm> {
 
   @override
   Widget build(BuildContext context) {
-    var resumeProvider = Provider.of<ResumeProvider>(context);
+    final resumeProvider = Provider.of<ResumeProvider>(context);
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
@@ -51,14 +51,14 @@ class _EducationFormState extends State<EducationForm> {
       child: Column(
         children: [
           TextFormField(
-            decoration: const InputDecoration(labelText: 'Collage Name'),
+            decoration: const InputDecoration(labelText: 'Company Name'),
             onChanged: ((value) =>
-                resumeProvider.updateCollegeName(value, widget.index)),
+                resumeProvider.updateCompanyName(value, widget.index)),
           ),
           TextFormField(
-            decoration: const InputDecoration(labelText: 'Course Name'),
+            decoration: const InputDecoration(labelText: 'Designation'),
             onChanged: ((value) =>
-                resumeProvider.updateCourse(value, widget.index)),
+                resumeProvider.updateDesignation(value, widget.index)),
           ),
           TextFormField(
             readOnly: true,
@@ -76,7 +76,7 @@ class _EducationFormState extends State<EducationForm> {
                     startDateController.text = format.format(startDate!);
                   });
 
-                  resumeProvider.updateEducationStartDate(
+                  resumeProvider.updateExperienceStartDate(
                     startDate!,
                     widget.index,
                   );
@@ -103,7 +103,7 @@ class _EducationFormState extends State<EducationForm> {
                     endDateController.text = format.format(endDate!);
                   });
 
-                  resumeProvider.updateEducationEndDate(
+                  resumeProvider.updateExperienceEndDate(
                     endDate!,
                     widget.index,
                   );
@@ -116,7 +116,7 @@ class _EducationFormState extends State<EducationForm> {
           ),
           ElevatedButton(
             child: const Text('Remove Form'),
-            onPressed: () => resumeProvider.removeEducation(widget.index),
+            onPressed: () => resumeProvider.removeExperience(widget.index),
           ),
         ],
       ),

@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:resume_builder_app/models/education.dart';
+import 'package:resume_builder_app/models/experience.dart';
 import 'package:resume_builder_app/models/personalInfo.dart';
+
+import '../models/project.dart';
 
 class ResumeProvider with ChangeNotifier {
   var firstNameController = TextEditingController();
-
   var lastNameController = TextEditingController();
   var emailController = TextEditingController();
   var dateOfBirthController = TextEditingController();
   var addressController = TextEditingController();
   var linkedInController = TextEditingController();
+  var skillController = TextEditingController();
 
   var personalInfo = PersonalInfo(
       firstName: '',
@@ -20,6 +23,15 @@ class ResumeProvider with ChangeNotifier {
       dateOfBirth: '');
 
   List<Education> educationList = [Education()];
+  List<Experience> experienceList = [Experience()];
+  List<Project> projectList = [Project()];
+  List<String> skillList = [];
+
+  addSkill() {
+    skillList.add(skillController.text);
+    skillController.clear();
+    notifyListeners();
+  }
 
   getPersonalInfo() {
     personalInfo = PersonalInfo(
@@ -33,8 +45,63 @@ class ResumeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  updateCollageName(String clgName, int index) {
-    educationList[index].collageName = clgName;
+  updateProjectName(String projectName, int index) {
+    projectList[index].projectName = projectName;
+    notifyListeners();
+  }
+
+  updateProjectLink(String link, int index) {
+    projectList[index].projectLink = link;
+    notifyListeners();
+  }
+
+  updateProjectSummary(String summary, int index) {
+    projectList[index].summary = summary;
+    notifyListeners();
+  }
+
+  addProject() {
+    projectList.add(Project());
+    notifyListeners();
+  }
+
+  removeProject(int index) {
+    projectList.removeAt(index);
+    notifyListeners();
+  }
+
+  updateCompanyName(String companyName, int index) {
+    experienceList[index].companyName = companyName;
+    notifyListeners();
+  }
+
+  updateDesignation(String designation, int index) {
+    experienceList[index].designation = designation;
+    notifyListeners();
+  }
+
+  updateExperienceStartDate(DateTime startDate, int index) {
+    experienceList[index].startDate = startDate;
+    notifyListeners();
+  }
+
+  updateExperienceEndDate(DateTime endDate, int index) {
+    experienceList[index].endDate = endDate;
+    notifyListeners();
+  }
+
+  addExperience() {
+    experienceList.add(Experience());
+    notifyListeners();
+  }
+
+  removeExperience(int index) {
+    experienceList.remove(Experience());
+    notifyListeners();
+  }
+
+  updateCollegeName(String clgName, int index) {
+    educationList[index].collegeName = clgName;
     notifyListeners();
   }
 
@@ -49,7 +116,6 @@ class ResumeProvider with ChangeNotifier {
   }
 
   updateEducationEndDate(DateTime endDate, int index) {
-    var date = endDate;
     endDate = educationList[index].endDate = endDate;
     notifyListeners();
   }
