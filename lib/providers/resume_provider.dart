@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:resume_builder_app/models/education.dart';
 import 'package:resume_builder_app/models/experience.dart';
+import 'package:resume_builder_app/models/other_info.dart';
 import 'package:resume_builder_app/models/personalInfo.dart';
+import 'package:resume_builder_app/models/resume.dart';
 
 import '../models/project.dart';
 
@@ -13,6 +15,8 @@ class ResumeProvider with ChangeNotifier {
   var addressController = TextEditingController();
   var linkedInController = TextEditingController();
   var skillController = TextEditingController();
+  var summaryController = TextEditingController();
+  var careerObjectiveController = TextEditingController();
 
   var personalInfo = PersonalInfo(
       firstName: '',
@@ -27,9 +31,62 @@ class ResumeProvider with ChangeNotifier {
   List<Project> projectList = [Project()];
   List<String> skillList = [];
 
+  OtherInfo otherInfo = OtherInfo(
+    careerObjective: '',
+    summary: '',
+  );
+
+  Resume myResume = Resume(
+    personalInfo: PersonalInfo(
+      firstName: '',
+      lastName: '',
+      email: '',
+      address: '',
+      linkedIn: '',
+      dateOfBirth: '',
+    ),
+    otherInfo: OtherInfo(
+      careerObjective: '',
+      summary: '',
+    ),
+    educationList: [],
+    experienceList: [],
+    projectList: [],
+    skillList: [],
+  );
+
+  getResumeDetails() {
+    Resume(
+      personalInfo: personalInfo,
+      educationList: educationList,
+      experienceList: experienceList,
+      projectList: projectList,
+      skillList: skillList,
+      otherInfo: otherInfo,
+    );
+    notifyListeners();
+  }
+
+  getOtherInfo() {
+    otherInfo = OtherInfo(
+      careerObjective: careerObjectiveController.text,
+      summary: summaryController.text,
+    );
+    notifyListeners();
+  }
+
   addSkill() {
-    skillList.add(skillController.text);
+    if (skillController.text.isNotEmpty) {
+      skillList.add(skillController.text);
+    }
     skillController.clear();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      notifyListeners();
+    });
+  }
+
+  removeSkill(String skill) {
+    skillList.remove(skill);
     notifyListeners();
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resume_builder_app/providers/resume_provider.dart';
-import 'package:resume_builder_app/screens/personalInfoScreen.dart';
+import 'package:resume_builder_app/screens/personal_info_screen.dart';
 
 void main() {
   runApp(const MyApp());
