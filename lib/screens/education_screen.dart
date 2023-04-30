@@ -10,34 +10,54 @@ class EducationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var resumeProvider = Provider.of<ResumeProvider>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Education'),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: resumeProvider.educationList.length,
-              itemBuilder: (context, index) {
-                return EducationForm(index: index);
-              },
-            ),
-          ),
-          ElevatedButton(
-            child: const Text('Add Form'),
-            onPressed: () => resumeProvider.addEducation(),
-          ),
-          ElevatedButton(
-            child: const Text('Next'),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ExperienceScreen(),
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Text(
+                'ADD YOUR EDUCATION',
+                style: Theme.of(context).textTheme.headline2,
               ),
             ),
-          ),
-        ],
+            Expanded(
+              child: ListView.builder(
+                itemCount: resumeProvider.educationList.length,
+                itemBuilder: (context, index) {
+                  return EducationForm(index: index);
+                },
+              ),
+            ),
+            ElevatedButton(
+              child: const Text('Add another Form'),
+              onPressed: () => resumeProvider.addEducation(context),
+            ),
+            ElevatedButton(
+              child: const Text('Next'),
+              onPressed: () {
+                var anyFieldEmpty =
+                    resumeProvider.checkIfEducationFieldIsEmpty();
+                if (!anyFieldEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ExperienceScreen(),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Please fill all the Details to continue.',
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

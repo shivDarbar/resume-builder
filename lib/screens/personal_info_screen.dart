@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:resume_builder_app/models/education.dart';
 import 'package:resume_builder_app/providers/resume_provider.dart';
 import 'package:resume_builder_app/screens/education_screen.dart';
 import 'package:resume_builder_app/widgets/my_text_field.dart';
@@ -37,27 +36,25 @@ class PersonalInfoScreen extends StatelessWidget {
               hintText: 'Email',
             ),
             MyTextField(
-              controller: resumeProvider.addressController,
-              hintText: 'Address',
-            ),
-            MyTextField(
               controller: resumeProvider.linkedInController,
               hintText: 'LinkedIn Profile',
             ),
             MyTextField(
-              controller: resumeProvider.dateOfBirthController,
-              hintText: 'Date of Birth',
+              controller: resumeProvider.mobileNoController,
+              hintText: 'Mobile Number',
+              keyboardType: TextInputType.phone,
             ),
             ElevatedButton(
               onPressed: () {
-                resumeProvider.getPersonalInfo();
-                print(resumeProvider.personalInfo.toString());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const EducationScreen(),
-                  ),
-                );
+                var gotDetails = resumeProvider.getPersonalInfo(context);
+                if (gotDetails) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EducationScreen(),
+                    ),
+                  );
+                }
               },
               child: const Text('Next'),
             ),

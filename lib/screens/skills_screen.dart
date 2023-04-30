@@ -43,12 +43,24 @@ class SkillsScreen extends StatelessWidget {
           ),
           ElevatedButton(
             child: const Text('Next'),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const OtherInfoScreen(),
-              ),
-            ),
+            onPressed: () {
+              if (resumeProvider.skillList.isNotEmpty) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const OtherInfoScreen(),
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Please fill all the Details to continue.',
+                    ),
+                  ),
+                );
+              }
+            },
           ),
         ],
       ),

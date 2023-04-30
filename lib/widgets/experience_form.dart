@@ -24,6 +24,14 @@ class _ExperienceFormState extends State<ExperienceForm> {
   }
 
   @override
+  void dispose() {
+    startDateController.dispose();
+    endDateController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final resumeProvider = Provider.of<ResumeProvider>(context);
     return Container(

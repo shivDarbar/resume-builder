@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resume_builder_app/providers/resume_provider.dart';
+import 'package:resume_builder_app/screens/preview_screen.dart';
 
 class OtherInfoScreen extends StatelessWidget {
   const OtherInfoScreen({super.key});
@@ -109,14 +110,16 @@ class OtherInfoScreen extends StatelessWidget {
             ElevatedButton(
               child: const Text('Preview'),
               onPressed: () {
-                resumeProvider.getOtherInfo();
-                resumeProvider.getResumeDetails();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const OtherInfoScreen(),
-                  ),
-                );
+                var gotDetails = resumeProvider.getOtherInfo(context);
+                if (gotDetails) {
+                  resumeProvider.getResumeDetails();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PreviewScreen(),
+                    ),
+                  );
+                }
               },
             ),
           ],

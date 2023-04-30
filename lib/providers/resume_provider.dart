@@ -1,4 +1,6 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
+import 'package:flutter/material.dart';
 import 'package:resume_builder_app/models/education.dart';
 import 'package:resume_builder_app/models/experience.dart';
 import 'package:resume_builder_app/models/other_info.dart';
@@ -11,20 +13,14 @@ class ResumeProvider with ChangeNotifier {
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
   var emailController = TextEditingController();
-  var dateOfBirthController = TextEditingController();
-  var addressController = TextEditingController();
+  var mobileNoController = TextEditingController();
   var linkedInController = TextEditingController();
   var skillController = TextEditingController();
   var summaryController = TextEditingController();
   var careerObjectiveController = TextEditingController();
 
   var personalInfo = PersonalInfo(
-      firstName: '',
-      lastName: '',
-      email: '',
-      address: '',
-      linkedIn: '',
-      dateOfBirth: '');
+      firstName: '', lastName: '', email: '', linkedIn: '', mobileNo: '');
 
   List<Education> educationList = [Education()];
   List<Experience> experienceList = [Experience()];
@@ -41,9 +37,8 @@ class ResumeProvider with ChangeNotifier {
       firstName: '',
       lastName: '',
       email: '',
-      address: '',
       linkedIn: '',
-      dateOfBirth: '',
+      mobileNo: '',
     ),
     otherInfo: OtherInfo(
       careerObjective: '',
@@ -56,7 +51,7 @@ class ResumeProvider with ChangeNotifier {
   );
 
   getResumeDetails() {
-    Resume(
+    myResume = Resume(
       personalInfo: personalInfo,
       educationList: educationList,
       experienceList: experienceList,
@@ -67,12 +62,22 @@ class ResumeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  getOtherInfo() {
-    otherInfo = OtherInfo(
-      careerObjective: careerObjectiveController.text,
-      summary: summaryController.text,
-    );
-    notifyListeners();
+  getOtherInfo(BuildContext context) {
+    if (careerObjectiveController.text.isNotEmpty &&
+        summaryController.text.isNotEmpty) {
+      otherInfo = OtherInfo(
+        careerObjective: careerObjectiveController.text,
+        summary: summaryController.text,
+      );
+      return true;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill all the details first.'),
+        ),
+      );
+      return false;
+    }
   }
 
   addSkill() {
@@ -90,16 +95,28 @@ class ResumeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  getPersonalInfo() {
-    personalInfo = PersonalInfo(
-      firstName: firstNameController.text,
-      lastName: lastNameController.text,
-      email: emailController.text,
-      address: addressController.text,
-      linkedIn: linkedInController.text,
-      dateOfBirth: dateOfBirthController.text,
-    );
-    notifyListeners();
+  getPersonalInfo(BuildContext context) {
+    if (firstNameController.text.isNotEmpty &&
+        lastNameController.text.isNotEmpty &&
+        emailController.text.isNotEmpty &&
+        linkedInController.text.isNotEmpty &&
+        mobileNoController.text.isNotEmpty) {
+      personalInfo = PersonalInfo(
+        firstName: firstNameController.text,
+        lastName: lastNameController.text,
+        email: emailController.text,
+        linkedIn: linkedInController.text,
+        mobileNo: mobileNoController.text,
+      );
+      return true;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill all the details first.'),
+        ),
+      );
+      return false;
+    }
   }
 
   updateProjectName(String projectName, int index) {
@@ -117,8 +134,18 @@ class ResumeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  addProject() {
-    projectList.add(Project());
+  addProject(BuildContext context) {
+    if (projectList.last.projectName.isNotEmpty ||
+        projectList.last.projectLink.isNotEmpty ||
+        projectList.last.summary.isNotEmpty) {
+      projectList.add(Project());
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill all the details first.'),
+        ),
+      );
+    }
     notifyListeners();
   }
 
@@ -147,8 +174,19 @@ class ResumeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  addExperience() {
-    experienceList.add(Experience());
+  addExperience(BuildContext context) {
+    if (experienceList.last.companyName.isNotEmpty ||
+        experienceList.last.designation.isNotEmpty ||
+        experienceList.last.startDate != null ||
+        experienceList.last.endDate != null) {
+      experienceList.add(Experience());
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill all the details first.'),
+        ),
+      );
+    }
     notifyListeners();
   }
 
@@ -177,9 +215,49 @@ class ResumeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  addEducation() {
-    educationList.add(Education());
+  addEducation(BuildContext context) {
+    if (educationList.last.collegeName.isNotEmpty ||
+        educationList.last.course.isNotEmpty ||
+        educationList.last.startDate != null ||
+        educationList.last.endDate != null) {
+      educationList.add(Education());
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please fill all the details first.')));
+    }
     notifyListeners();
+  }
+
+  checkIfEducationFieldIsEmpty() {
+    if (educationList.last.collegeName.isNotEmpty ||
+        educationList.last.course.isNotEmpty ||
+        educationList.last.startDate != null ||
+        educationList.last.endDate != null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  checkIfExperienceFieldIsEmpty() {
+    if (experienceList.last.companyName.isNotEmpty ||
+        experienceList.last.designation.isNotEmpty ||
+        experienceList.last.startDate != null ||
+        experienceList.last.endDate != null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  checkIfProjectFieldIsEmpty() {
+    if (projectList.last.projectName.isNotEmpty ||
+        projectList.last.projectLink.isNotEmpty ||
+        projectList.last.summary.isNotEmpty) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   removeEducation(int index) {

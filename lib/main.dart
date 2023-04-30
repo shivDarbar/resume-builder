@@ -21,7 +21,22 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          textTheme: const TextTheme(
+            bodyText1: TextStyle(
+              fontSize: 12,
+            ),
+            headline1: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              // backgroundColor: Colors.green.shade100,
+            ),
+            headline2: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              // backgroundColor: Colors.green.shade100,
+            ),
+          ),
         ),
         home: const PersonalInfoScreen(),
       ),
