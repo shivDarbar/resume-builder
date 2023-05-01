@@ -1,8 +1,6 @@
-# resume_builder_app
+# Resume Builder App
 
-A new Flutter project.
-
-## Getting Started
+A new Flutter project to create resume with preview option.
 
 ## Setup
 
