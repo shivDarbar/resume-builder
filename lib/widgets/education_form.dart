@@ -19,15 +19,16 @@ class _EducationFormState extends State<EducationForm> {
   void initState() {
     startDateController = TextEditingController();
     endDateController = TextEditingController();
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var resumeProvider = Provider.of<ResumeProvider>(context);
+    final mediaQuery = MediaQuery.of(context);
     return Container(
-      margin: const EdgeInsets.all(10),
+      margin:
+          EdgeInsets.symmetric(horizontal: mediaQuery.size.shortestSide * 0.1),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           color: Colors.grey[300],
@@ -84,8 +85,6 @@ class _EducationFormState extends State<EducationForm> {
               );
             },
             decoration: const InputDecoration(labelText: 'Start Date'),
-            // onChanged: ((value) =>
-            //     resumeProvider.updateCourse(value, widget.index)),
           ),
           TextFormField(
             readOnly: true,
@@ -111,12 +110,17 @@ class _EducationFormState extends State<EducationForm> {
               );
             },
             decoration: const InputDecoration(labelText: 'End Date'),
-            // onChanged: ((value) =>
-            //     resumeProvider.updateCourse(value, widget.index)),
           ),
-          ElevatedButton(
-            child: const Text('Remove Form'),
-            onPressed: () => resumeProvider.removeEducation(widget.index),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              child: const Text('Remove Form'),
+              onPressed: () {
+                if (resumeProvider.educationList.isNotEmpty) {
+                  resumeProvider.removeEducation(widget.index);
+                }
+              },
+            ),
           ),
         ],
       ),

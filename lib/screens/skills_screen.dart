@@ -11,6 +11,7 @@ class SkillsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final resumeProvider = Provider.of<ResumeProvider>(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Add Skills'),
       ),
@@ -19,48 +20,43 @@ class SkillsScreen extends StatelessWidget {
         children: [
           MyTextField(
             controller: resumeProvider.skillController,
-            // onSubmitted: resumeProvider.addSkill(),
-
             hintText: 'Skill',
-            // onChanged: resumeProvider.addSkill(),
           ),
-          if (resumeProvider.skillList.isNotEmpty)
-            // SizedBox(
-            //   height: 100,
-            //   child: ListView.builder(
-            //       itemBuilder: ((context, index) => ListTile(
-            //             title: Text(resumeProvider.skillList[index]),
-            //           ))),
-            // )
-            chipList(resumeProvider),
-          ElevatedButton(
-            onPressed: () {
-              resumeProvider.addSkill();
-            },
-            child: const Text(
-              'Add Skill',
+          if (resumeProvider.skillList.isNotEmpty) chipList(resumeProvider),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                resumeProvider.addSkill();
+              },
+              child: const Text(
+                'Add Skill',
+              ),
             ),
           ),
-          ElevatedButton(
-            child: const Text('Next'),
-            onPressed: () {
-              if (resumeProvider.skillList.isNotEmpty) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const OtherInfoScreen(),
-                  ),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'Please fill all the Details to continue.',
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              child: const Text('Next'),
+              onPressed: () {
+                if (resumeProvider.skillList.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const OtherInfoScreen(),
                     ),
-                  ),
-                );
-              }
-            },
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Please fill all the Details to continue.',
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),

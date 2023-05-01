@@ -31,6 +31,12 @@ class _PreviewScreenState extends State<PreviewScreen> {
       const CareerObjectivePreviewWidget(),
       const SummaryPreviewWidget(),
     ];
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Long press any section to rearrange.'),
+        duration: Duration(seconds: 5),
+      ));
+    });
   }
 
   void _onReorder(int oldIndex, int newIndex) {
@@ -44,9 +50,6 @@ class _PreviewScreenState extends State<PreviewScreen> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     var wrap = ReorderableWrap(
-      spacing: 8.0,
-      runSpacing: 4.0,
-      padding: const EdgeInsets.all(8),
       onReorder: _onReorder,
       children: _tiles,
     );
@@ -55,9 +58,10 @@ class _PreviewScreenState extends State<PreviewScreen> {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Container(
-            margin:
-                EdgeInsets.symmetric(horizontal: mediaQuery.size.width * 0.05),
+            margin: EdgeInsets.symmetric(
+                horizontal: mediaQuery.size.shortestSide * 0.05),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const Padding(

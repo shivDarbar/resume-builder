@@ -10,17 +10,15 @@ class EducationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var resumeProvider = Provider.of<ResumeProvider>(context);
+    final mediaQuery = MediaQuery.of(context);
+    var isLandScape = mediaQuery.orientation == Orientation.landscape;
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text('ADD YOUR EDUCATION'),
+        ),
         body: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                'ADD YOUR EDUCATION',
-                style: Theme.of(context).textTheme.headline2,
-              ),
-            ),
             Expanded(
               child: ListView.builder(
                 itemCount: resumeProvider.educationList.length,
@@ -29,32 +27,43 @@ class EducationScreen extends StatelessWidget {
                 },
               ),
             ),
-            ElevatedButton(
-              child: const Text('Add another Form'),
-              onPressed: () => resumeProvider.addEducation(context),
-            ),
-            ElevatedButton(
-              child: const Text('Next'),
-              onPressed: () {
-                var anyFieldEmpty =
-                    resumeProvider.checkIfEducationFieldIsEmpty();
-                if (!anyFieldEmpty) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ExperienceScreen(),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'Please fill all the Details to continue.',
-                      ),
-                    ),
-                  );
-                }
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    child: const Text('Add another Form'),
+                    onPressed: () => resumeProvider.addEducation(context),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    child: const Text('Next'),
+                    onPressed: () {
+                      var anyFieldEmpty =
+                          resumeProvider.checkIfEducationFieldIsEmpty();
+                      if (!anyFieldEmpty) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ExperienceScreen(),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Please fill all the Details to continue.',
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
         ),

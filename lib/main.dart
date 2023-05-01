@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resume_builder_app/providers/resume_provider.dart';
-import 'package:resume_builder_app/screens/personal_info_screen.dart';
+import 'package:resume_builder_app/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,6 +21,16 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+              elevation: 0,
+              foregroundColor: Colors.black,
+              backgroundColor: Colors.white,
+              centerTitle: true,
+              toolbarTextStyle: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              )),
           textTheme: const TextTheme(
             bodyText1: TextStyle(
               fontSize: 12,
@@ -28,17 +38,15 @@ class MyApp extends StatelessWidget {
             headline1: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              // backgroundColor: Colors.green.shade100,
             ),
             headline2: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
               color: Colors.black,
-              // backgroundColor: Colors.green.shade100,
             ),
           ),
         ),
-        home: const PersonalInfoScreen(),
+        home: const HomeScreen(),
       ),
     );
   }

@@ -19,7 +19,6 @@ class _ExperienceFormState extends State<ExperienceForm> {
   void initState() {
     startDateController = TextEditingController();
     endDateController = TextEditingController();
-    // TODO: implement initState
     super.initState();
   }
 
@@ -27,15 +26,17 @@ class _ExperienceFormState extends State<ExperienceForm> {
   void dispose() {
     startDateController.dispose();
     endDateController.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final resumeProvider = Provider.of<ResumeProvider>(context);
+    final mediaQuery = MediaQuery.of(context);
+
     return Container(
-      margin: const EdgeInsets.all(10),
+      margin:
+          EdgeInsets.symmetric(horizontal: mediaQuery.size.shortestSide * 0.1),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           color: Colors.grey[300],
@@ -92,8 +93,6 @@ class _ExperienceFormState extends State<ExperienceForm> {
               );
             },
             decoration: const InputDecoration(labelText: 'Start Date'),
-            // onChanged: ((value) =>
-            //     resumeProvider.updateCourse(value, widget.index)),
           ),
           TextFormField(
             readOnly: true,
@@ -119,12 +118,17 @@ class _ExperienceFormState extends State<ExperienceForm> {
               );
             },
             decoration: const InputDecoration(labelText: 'End Date'),
-            // onChanged: ((value) =>
-            //     resumeProvider.updateCourse(value, widget.index)),
           ),
-          ElevatedButton(
-            child: const Text('Remove Form'),
-            onPressed: () => resumeProvider.removeExperience(widget.index),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              child: const Text('Remove Form'),
+              onPressed: () {
+                if (resumeProvider.experienceList.isNotEmpty) {
+                  resumeProvider.removeExperience(widget.index);
+                }
+              },
+            ),
           ),
         ],
       ),
